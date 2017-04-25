@@ -1,0 +1,19 @@
+@import "~styles/variables";
+
+.canvasWrapper {
+  width: calc(100% - #{$sidebar-width});
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $content-background-color;
+}
+
+.canvasContent {
+
+  & canvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #eee;
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "andrzej-92/react-image-editor",
+  "name": "react-image-editor",
   "version": "0.0.1",
   "description": "A react app for manipulate images through html 5 canvas",
   "main": "src/index.tsx",
@@ -40,5 +40,8 @@
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.4",
     "yargs": "^7.1.0"
+  },
+  "dependencies": {
+    "react-input-range": "^1.1.2"
   }
 }
