@@ -10,3 +10,15 @@
   width: 40px;
   outline: 0;
 }
+
+.wrapper {
+  width: 100%;
+}
+
+.sliderWrapper {
+  width: calc(100% - 40px);
+}
+
+.sliderValue {
+  width: 50px;
+}

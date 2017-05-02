@@ -11,7 +11,7 @@
 }
 
 .sidebarContent {
-
+  color: #e6e6e6;
 }
 
 .navigation {
@@ -20,12 +20,18 @@
   padding: 0;
 
   & li {
-    padding: 1rem 2rem;
+    padding: 1rem 1rem 0;
   }
 
   & h4 {
     font-size: 14px;
     font-weight: 400;
-    margin: .5rem;
+    margin: .5rem 0;
+  }
+
+  & label {
+    &, & > span {
+      color: #d8d8d8;
+    }
   }
 }

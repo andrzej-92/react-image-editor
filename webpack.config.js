@@ -5,14 +5,15 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const path = require('path');
 const argv = require('yargs').argv;
 
-const extractSass = new ExtractTextPlugin({
-  filename: "style.css"
-});
-
 const isDev = argv.env !== 'production';
 const hot = !!argv.hot;
 
 const assetsNames = isDev ? '[name]' : '[name]-[hash]';
+
+const extractSass = new ExtractTextPlugin({
+  filename: assetsNames + '.css'
+});
+
 
 let plugins = [
   extractSass,
@@ -43,8 +44,9 @@ if (!isDev) {
 }
 
 module.exports = {
-  watch: true,
+  watch: isDev,
   entry: [
+    'babel-polyfill',
     './src/index.tsx',
   ],
   output: {
@@ -55,9 +57,23 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'react-hot-loader'
+        },{
+          loader: 'babel-loader',
+        }, {
+          loader: 'ts-loader'
+        }]
+      },
+      {
+        test: /\.js(x?)$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015', 'react']
+        }
       },
       {
         test: /\.json$/,
@@ -68,7 +84,7 @@ module.exports = {
         loader: 'json-loader!yaml-loader',
       },
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         use: extractSass.extract({
           use: [{
             loader: "css-loader", options: {
@@ -76,22 +92,45 @@ module.exports = {
               importLoaders: true,
               minimize: !isDev,
               module: true,
-              localIdentName: '[hash:base64:5]'
+              localIdentName: '[name]-[local]-[hash:base64:5]'
             }
           }, {
             loader: 'postcss-loader', options: {
-              plugins: function () {
+              sourceComments: isDev,
+              sourceMap: isDev,
+              plugins: () => {
                 return [
-                  require('autoprefixer')({
-                    browsers: ['last 2 versions', 'ie >= 9'],
-                    cascade: true
-                  })
+                  require('postcss-cssnext'),
                 ];
               }
             }
           }, {
             loader: "sass-loader", options: {
               sourceMap: isDev
+            }
+          }]
+        })
+      },
+      {
+        test: /\.css$/,
+        use: extractSass.extract({
+          use: [{
+            loader: "css-loader", options: {
+              sourceMap: isDev,
+              importLoaders: true,
+              minimize: !isDev,
+              module: true,
+              localIdentName: '[name]-[local]-[hash:base64:5]'
+            }
+          }, {
+            loader: 'postcss-loader', options: {
+              sourceComments: isDev,
+              sourceMap: isDev,
+              plugins: () => {
+                return [
+                  require('postcss-cssnext'),
+                ];
+              }
             }
           }]
         })

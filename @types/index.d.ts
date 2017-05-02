@@ -1,1 +1,2 @@
-//declare module 'react-input-range';
+// define custom types here
+declare module 'classnames';

@@ -1,0 +1,68 @@
+@import "~styles/variables";
+
+.fileLoaderWrapper {
+  text-align:center;
+  margin: 3rem 0;
+}
+
+.canvasWrapper {
+  width: calc(100% - #{$sidebar-width});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.loading {
+  opacity: 0.5;
+}
+
+.canvasContent {
+
+  & canvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #eee;
+  }
+
+  & .changeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: $primary-color;
+    font-size: 3rem;
+
+    &:hover:not([disabled]) {
+      background-color: transparent;
+    }
+  }
+
+  & .downloadButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    cursor: pointer;
+    padding: 1rem;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: $primary-color;
+    font-size: 1rem;
+
+    &:hover:not([disabled]) {
+      background-color: transparent;
+    }
+  }
+
+  & h3 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    margin: 3rem 0;
+    text-align:center;
+  }
+}
+
+
