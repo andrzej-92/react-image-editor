@@ -22,7 +22,6 @@
   & canvas {
     display: block;
     margin: 0 auto;
-    border: 1px solid #eee;
   }
 
   & .changeButton {
@@ -60,9 +59,17 @@
     font-family: 'Lato', 'Open Sans', sans-serif;
     font-weight: 300;
     font-size: 2rem;
-    margin: 3rem 0;
+    margin: 3rem auto;
     text-align:center;
+    max-width: 500px;
   }
 }
 
+.mixedCanvasWrapper {
+  text-align:center;
 
+  & > canvas {
+    display: inline-block;
+    margin: 0.5rem;
+  }
+}

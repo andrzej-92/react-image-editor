@@ -60,6 +60,7 @@
     "yargs": "^7.1.0"
   },
   "dependencies": {
-    "classnames": "^2.2.5"
+    "classnames": "^2.2.5",
+    "redux-localstorage": "^0.4.1"
   }
 }

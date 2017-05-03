@@ -1,4 +1,9 @@
-import { FILTER_CHANGE, STRENGTH_CHANGED, CHANNELS_WILL_CHANGE, BLOCK_SIZE_CHANGED } from './constans';
+import {
+  FILTER_CHANGE,
+  STRENGTH_WILL_CHANGE,
+  CHANNELS_WILL_CHANGE,
+  BLOCK_SIZE_CHANGED
+} from './constans';
 import {
   FilterInterface,
   ImageEditorAction
@@ -20,7 +25,7 @@ export function changeBlockSize(size: number): ImageEditorAction {
 
 export function changeStrength(value: number): ImageEditorAction {
   return {
-    type: STRENGTH_CHANGED,
+    type: STRENGTH_WILL_CHANGE,
     payload: value
   }
 }

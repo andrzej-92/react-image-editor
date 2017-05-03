@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import Sidebar from "./modules/image-editor/components/sidebar/Sidebar"
 import Canvas from "./modules/image-editor/components/canvas/Canvas"
 import FilteredCanvas from "./modules/image-editor/components/canvas/FilteredCanvas"
+import MixedCanvas from "./modules/image-editor/components/canvas/MixedCanvas"
 
 class App extends React.Component<any, any> {
 
@@ -31,6 +32,7 @@ class App extends React.Component<any, any> {
             <FilteredCanvas width={900} height={550}/>
           </Tab>
           <Tab label='Zmiksowany'>
+            <MixedCanvas />
           </Tab>
         </Tabs>
         <Sidebar/>

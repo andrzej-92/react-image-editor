@@ -6,6 +6,7 @@ interface RangeSliderPropsInterface {
   volume?: number,
   name?: string,
   onChange?: Function
+  onDragStop?: Function
 }
 
 interface RangeSliderStateInterface {
@@ -33,6 +34,12 @@ class RangeSlider extends React.Component<RangeSliderPropsInterface, RangeSlider
     }
   };
 
+  handleDragStop = () => {
+    if (this.props.onDragStop) {
+      this.props.onDragStop.call(this);
+    }
+  };
+
   render() {
 
     return (
@@ -47,6 +54,7 @@ class RangeSlider extends React.Component<RangeSliderPropsInterface, RangeSlider
                 step={1}
                 value={this.state.value}
                 onChange={this.handleChange}
+                onDragStop={this.handleDragStop}
               />
             </td>
             <td className={style.sliderValue}>

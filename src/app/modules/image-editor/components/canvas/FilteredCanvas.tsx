@@ -2,6 +2,7 @@ import * as React from "react"
 import { connect } from 'react-redux'
 import {
   STORAGE_ORIGINAL_IMAGE,
+  STORAGE_FILTERED_IMAGE,
   FILTER_NONE,
   FILTER_MEDIANA,
   FILTER_MINIMUM,
@@ -16,7 +17,6 @@ const styles = require('./canvas.scss');
 class FilteredCanvas extends React.Component<any, any> {
 
   private unsubscribe: Unsubscribe = null;
-
   private canvas: HTMLCanvasElement = null;
 
   constructor(props: any) {
@@ -59,10 +59,8 @@ class FilteredCanvas extends React.Component<any, any> {
 
     imageObject.onload = () => {
 
-      this.setState({
-        width: imageObject.width,
-        height: imageObject.height
-      });
+      canvas.width = imageObject.width;
+      canvas.height = imageObject.height;
 
       context.clearRect(0,0,  canvas.width, canvas.height);
       context.drawImage(imageObject as HTMLImageElement, 0, 0);
@@ -70,10 +68,6 @@ class FilteredCanvas extends React.Component<any, any> {
       let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       let arrayData = this.prepareRGBArray(canvas, imageData);
       let { filter } = this.props;
-
-      this.setState({
-        isFiltering: true
-      });
 
       switch (filter) {
         case FILTER_MAKSIMUM:
@@ -98,9 +92,7 @@ class FilteredCanvas extends React.Component<any, any> {
           break;
       }
 
-      this.setState({
-        isFiltering: false
-      });
+      localStorage.setItem(STORAGE_FILTERED_IMAGE, canvas.toDataURL());
     };
 
     imageObject.src = this.state.image;
@@ -351,9 +343,10 @@ class FilteredCanvas extends React.Component<any, any> {
   };
 
   downloadCanvas = (e:any) => {
-    e.target.href = this.canvas.toDataURL();
-    e.target.download = 'Filtered.png';
+    let date = (new Date()).toUTCString();
 
+    e.target.href = this.canvas.toDataURL();
+    e.target.download = `filtered-image-${date}.png`;
   };
 
   render() {
@@ -388,6 +381,5 @@ const mapStateToProps = (state: any) => ({
   channels: state.channels,
   blockSize: state.blockSize
 });
-
 
 export default connect(mapStateToProps)(FilteredCanvas);

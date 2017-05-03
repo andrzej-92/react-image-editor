@@ -3,6 +3,7 @@ export const FILTER_CHANGED: string = 'FILTER_CHANGED';
 
 export const BLOCK_SIZE_CHANGED: string = 'BLOCK_SIZE_CHANGED';
 
+export const STRENGTH_WILL_CHANGE: string = 'STRENGTH_WILL_CHANGE';
 export const STRENGTH_CHANGED: string = 'STRENGTH_CHANGED';
 export const CHANNELS_WILL_CHANGE: string = 'CHANNELS_WILL_CHANGE';
 export const CHANNELS_CHANGED: string = 'CHANNELS_CHANGED';

@@ -1,9 +1,9 @@
 import * as React from "react"
-import { connect } from 'react-redux'
-import { Switch, RadioGroup, RadioButton } from 'react-toolbox'
+import {connect} from 'react-redux'
+import {Switch, RadioGroup, RadioButton} from 'react-toolbox'
 import RangeSlider from '../range-slider/RangeSlider'
-import { changeStrength, changeFilter, changeChannels, changeBlockSize } from '../../actions'
-import { store } from '../../../../store'
+import {changeStrength, changeFilter, changeChannels, changeBlockSize} from '../../actions'
+import {store} from '../../../../store'
 import {
   FILTER_NONE,
   FILTER_MINIMUM,
@@ -22,13 +22,14 @@ class Sidebar extends React.Component<any, any> {
     this.state = {
       filter: FILTER_NONE,
       blockSize: 3,
+      strength: 0,
       channels: props.channels
     }
   }
 
   componentWillMount() {
     store.subscribe(() => {
-      const state:any = store.getState();
+      const state: any = store.getState();
 
       this.setState({
         channels: state.channels
@@ -49,7 +50,7 @@ class Sidebar extends React.Component<any, any> {
       filter: value
     });
 
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
 
     dispatch(changeFilter({
       name: value
@@ -62,20 +63,28 @@ class Sidebar extends React.Component<any, any> {
       blockSize: value
     });
 
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
 
     dispatch(changeBlockSize(parseInt(value)));
   };
 
   handleStrengtValueChange = (value: number) => {
-    const { dispatch } = this.props;
 
-    dispatch(changeStrength(value));
+    this.setState({
+      strength: value
+    });
   };
+
+  dispatchStrengthChange = () => {
+    const {dispatch} = this.props;
+
+    dispatch(changeStrength(this.state.strength));
+  };
+
 
   render() {
 
-    const { channels } = this.props;
+    let { channels } = this.props;
 
     return (
       <div className={styles.sidebarWrapper}>
@@ -107,30 +116,34 @@ class Sidebar extends React.Component<any, any> {
             <li>
               <h4>Kanały</h4>
               <div>
-                  <Switch
-                    checked={channels.red}
-                    label="RED"
-                    onChange={this.handleChannelsChange.bind(this, 'red')}
-                  />
+                <Switch
+                  checked={channels.red}
+                  label="RED"
+                  onChange={this.handleChannelsChange.bind(this, 'red')}
+                />
               </div>
               <div>
-                  <Switch
-                    checked={channels.green}
-                    label="GREEN"
-                    onChange={this.handleChannelsChange.bind(this, 'green')}
-                  />
+                <Switch
+                  checked={channels.green}
+                  label="GREEN"
+                  onChange={this.handleChannelsChange.bind(this, 'green')}
+                />
               </div>
               <div>
-                  <Switch
-                    checked={channels.blue}
-                    label="BLUE"
-                    onChange={this.handleChannelsChange.bind(this, 'blue')}
-                  />
+                <Switch
+                  checked={channels.blue}
+                  label="BLUE"
+                  onChange={this.handleChannelsChange.bind(this, 'blue')}
+                />
               </div>
             </li>
             <li>
-                <h4>Krycie</h4>
-                <RangeSlider volume={0} onChange={this.handleStrengtValueChange} />
+              <h4>Krycie</h4>
+              <RangeSlider
+                volume={0}
+                onChange={this.handleStrengtValueChange}
+                onDragStop={this.dispatchStrengthChange}
+              />
             </li>
           </ul>
         </div>
