@@ -40,6 +40,27 @@ class RangeSlider extends React.Component<RangeSliderPropsInterface, RangeSlider
     }
   };
 
+  handleInputChange = (event: any) => {
+
+    let value = parseInt(event.target.value);
+
+    if (value < 0 || value > 100) {
+      return false;
+    }
+
+    this.setState({
+      value: value
+    });
+
+    if (this.props.onChange) {
+      this.props.onChange.call(this, value);
+    }
+
+    if (this.props.onDragStop) {
+      this.props.onDragStop.call(this);
+    }
+  };
+
   render() {
 
     return (
@@ -58,7 +79,14 @@ class RangeSlider extends React.Component<RangeSliderPropsInterface, RangeSlider
               />
             </td>
             <td className={style.sliderValue}>
-              {this.state.value}
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="1"
+                value={this.state.value.toString()}
+                onChange={this.handleInputChange}
+              />
             </td>
           </tr>
           </tbody>

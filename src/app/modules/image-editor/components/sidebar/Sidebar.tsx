@@ -37,6 +37,16 @@ class Sidebar extends React.Component<any, any> {
     });
   }
 
+  isMixedTabActive = ():boolean => {
+    let { index } = this.props;
+    return index == 2;
+  };
+
+  isOriginalTabActive = ():boolean => {
+    let { index } = this.props;
+    return index == 0;
+  };
+
   handleChannelsChange = (channel: string, value: boolean) => {
 
     const { dispatch } = this.props;
@@ -73,6 +83,7 @@ class Sidebar extends React.Component<any, any> {
     this.setState({
       strength: value
     });
+
   };
 
   dispatchStrengthChange = () => {
@@ -81,71 +92,107 @@ class Sidebar extends React.Component<any, any> {
     dispatch(changeStrength(this.state.strength));
   };
 
+  activeFilterSection = () => (
+    <div>
+      <h4>Aktywny filter</h4>
+      <div>
+        <RadioGroup name='filter' value={this.state.filter} onChange={this.handleFilterChange}>
+          <RadioButton label='Off' value={FILTER_NONE}/>
+          <RadioButton label='Minimalny' value={FILTER_MINIMUM}/>
+          <RadioButton label='Maksymalny' value={FILTER_MAKSIMUM}/>
+          <RadioButton label='Medianowy' value={FILTER_MEDIANA}/>
+          <RadioButton label='Negatyw' value={FILTER_REVERSE}/>
+        </RadioGroup>
+      </div>
+    </div>
+  );
+
+  blockSizeSection = () => (
+    <div>
+      <h4>Wielkość bloku</h4>
+      <div>
+        <RadioGroup name='filter' value={this.state.blockSize.toString()} onChange={this.handleBlockSizeChange}>
+          <RadioButton label='3x3' value="3"/>
+          <RadioButton label='5x5' value="5"/>
+          <RadioButton label='7x7' value="7"/>
+          <RadioButton label='9x9' value="9"/>
+        </RadioGroup>
+      </div>
+    </div>
+  );
+
+  channelsSection = () => {
+    let { channels } = this.props;
+    return (
+      <div>
+        <h4>Kanały</h4>
+        <div>
+          <Switch
+            checked={channels.red}
+            label="RED"
+            onChange={this.handleChannelsChange.bind(this, 'red')}
+          />
+        </div>
+        <div>
+          <Switch
+            checked={channels.green}
+            label="GREEN"
+            onChange={this.handleChannelsChange.bind(this, 'green')}
+          />
+        </div>
+        <div>
+          <Switch
+            checked={channels.blue}
+            label="BLUE"
+            onChange={this.handleChannelsChange.bind(this, 'blue')}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  navigationSection = () => {
+
+    if (this.isMixedTabActive()) {
+      return (
+        <div>
+          <h4>Krycie</h4>
+          <RangeSlider
+            volume={0}
+            onChange={this.handleStrengtValueChange}
+            onDragStop={this.dispatchStrengthChange}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        {this.activeFilterSection()}
+        {this.blockSizeSection()}
+        {this.channelsSection()}
+      </div>
+    )
+  };
 
   render() {
-
-    let { channels } = this.props;
 
     return (
       <div className={styles.sidebarWrapper}>
         <div className={styles.sidebarContent}>
-          <ul className={styles.navigation}>
-            <li>
-              <h4>Aktywny filter</h4>
-              <div>
-                <RadioGroup name='filter' value={this.state.filter} onChange={this.handleFilterChange}>
-                  <RadioButton label='Off' value={FILTER_NONE}/>
-                  <RadioButton label='Minimalny' value={FILTER_MINIMUM}/>
-                  <RadioButton label='Maksymalny' value={FILTER_MAKSIMUM}/>
-                  <RadioButton label='Medianowy' value={FILTER_MEDIANA}/>
-                  <RadioButton label='Negatyw' value={FILTER_REVERSE}/>
-                </RadioGroup>
-              </div>
-            </li>
-            <li>
-              <h4>Wielkość bloku</h4>
-              <div>
-                <RadioGroup name='filter' value={this.state.blockSize.toString()} onChange={this.handleBlockSizeChange}>
-                  <RadioButton label='3x3' value="3"/>
-                  <RadioButton label='5x5' value="5"/>
-                  <RadioButton label='7x7' value="7"/>
-                  <RadioButton label='9x9' value="9"/>
-                </RadioGroup>
-              </div>
-            </li>
-            <li>
-              <h4>Kanały</h4>
-              <div>
-                <Switch
-                  checked={channels.red}
-                  label="RED"
-                  onChange={this.handleChannelsChange.bind(this, 'red')}
-                />
-              </div>
-              <div>
-                <Switch
-                  checked={channels.green}
-                  label="GREEN"
-                  onChange={this.handleChannelsChange.bind(this, 'green')}
-                />
-              </div>
-              <div>
-                <Switch
-                  checked={channels.blue}
-                  label="BLUE"
-                  onChange={this.handleChannelsChange.bind(this, 'blue')}
-                />
-              </div>
-            </li>
-            <li>
-              <h4>Krycie</h4>
-              <RangeSlider
-                volume={0}
-                onChange={this.handleStrengtValueChange}
-                onDragStop={this.dispatchStrengthChange}
-              />
-            </li>
-          </ul>
+          <div className={styles.navigation}>
+            {this.isOriginalTabActive()
+              ? (
+                <div>
+                  <h4>Po wybraniu obrazu przejdź do filtrów</h4>
+                </div>
+              ) : (
+                <div>
+                  {this.navigationSection()}
+                </div>
+              )
+            }
+          </div>
         </div>
       </div>
     );

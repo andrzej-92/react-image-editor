@@ -9,6 +9,8 @@
   display: inline-block;
   width: 40px;
   outline: 0;
+
+
 }
 
 .wrapper {
@@ -21,4 +23,15 @@
 
 .sliderValue {
   width: 50px;
+
+  & input {
+    display: block;
+    width: 45px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0;
+    padding: .5rem 1rem;
+    background-color: transparent;
+    color: white;
+  }
 }

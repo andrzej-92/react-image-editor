@@ -25,17 +25,17 @@ class App extends React.Component<any, any> {
     return (
       <div className="app-wrapper">
         <Tabs index={this.state.index} onChange={this.handleTabChange}>
-          <Tab label='Oryginał'>
+          <Tab label='Wybierz obraz'>
             <Canvas width={900} height={550}/>
           </Tab>
-          <Tab label='Przefiltrowany'>
+          <Tab label='Wybierz filtr'>
             <FilteredCanvas width={900} height={550}/>
           </Tab>
-          <Tab label='Zmiksowany'>
+          <Tab label='Wyeksportuj'>
             <MixedCanvas />
           </Tab>
         </Tabs>
-        <Sidebar/>
+        <Sidebar index={this.state.index} />
       </div>
     );
   }
